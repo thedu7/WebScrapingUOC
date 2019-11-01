@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 CONFIG
 '''
 data = ["Nom", "Autor", "Tematica", "Preu", "Temps de joc", "Dificultat", "Jugadors", "Idioma", "Descripcio", "Edat", "URL"]
-dato = ["","","","","","","","","","","","","","","","","","", ""]
+dato = ["","","","","","","","","","","","","","","","","","",""]
 file = 'Juegos-Zacatrus.csv'
 basic_url_zacatrus = 'https://zacatrus.es/'
 '''
@@ -45,7 +45,7 @@ def parse_main_page(html):
     
     #create_csv(file, data)
     f = csv.writer(open(file, 'w'))
-    f.writerows(data)  
+    f.writerow(data)  
     
     # Pull all text from the BodyText div
     games_list = soup.find(class_='products list items product-items')
@@ -78,7 +78,7 @@ def parse_main_page(html):
 
         print(data_list)
         
-        f.writerows(data_list)
+        f.writerow(data_list)
 
         
 def scrap_web_content(html, ind):

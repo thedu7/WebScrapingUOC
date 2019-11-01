@@ -9,10 +9,13 @@ from bs4 import BeautifulSoup
 '''
 CONFIG
 '''
+
 data = ["Nom", "Autor", "Tematica", "Preu", "Temps de joc", "Dificultat", "Jugadors", "Idioma", "Descripcio", "Edat", "URL"]
 dato = ["","","","","","","","","","","","","","","","","","",""]
 file = 'Juegos-Zacatrus.csv'
 basic_url_zacatrus = 'https://zacatrus.es/'
+
+
 '''
 FUNCTIONS
 '''
@@ -123,10 +126,3 @@ def zacatrus_crawler(url, basic_url, mode):
     print("Starting to crawl:")
     rp = robot_parser(basic_url)
     download(url, rp, mode)
-
-    
-def length_of_last_word(s):
-    words = s.split()
-    if len(words) == 0:
-        return 0
-    return len(words[-1])

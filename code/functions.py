@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 CONFIG
 '''
 
-data = ["Nom", "Autores", "Tematica", "Preu", "Temps de joc", "Dificultat", "Jugadors", "Idioma", "Descripcio", "Edat", "URL"]
+data = ["Nom", "Autors", "Temàtica", "Preu", "Temps de joc", "Dificultat", "Num. Jugadors", "Idioma", "Descripció", "Edat", "URL"]
 file = 'Juegos-Zacatrus.csv'
 basic_url_zacatrus = 'https://zacatrus.es/'
 
@@ -31,42 +31,42 @@ def parse_page_info(url):
     try:
         data[3] = soup_info.find(class_='price').text.strip()
     except AttributeError:
-        data[3] = "No identificat"
+        data[3] = "Preu NO identificat"
     
     try:
         data[1] = games_infos.find("td", {'data-th':'Autor'}).text.strip()
     except AttributeError:
-        data[1] = "No identificat/s"
+        data[1] = "Autors NO identificat/s"
         
     try:
         data[2] = games_infos.find("td", {'data-th':'Temática'}).text.strip()
     except AttributeError:
-        data[2] = "No identificada"
+        data[2] = "Temàtica NO identificada"
     
     try:
         data[4] = games_infos.find("td", {'data-th':'Tiempo de juego'}).text.strip()
     except AttributeError:
-        data[4] = "No identificat"
+        data[4] = "Temps de joc NO identificat"
     
     try:
         data[5] = games_infos.find("td", {'data-th':'Complejidad'}).text.strip()
     except AttributeError:
-        data[5] = "No identificada"
+        data[5] = "Dificultat NO identificada"
         
     try:
         data[6] = games_infos.find("td", {'data-th':'Núm. jugadores'}).text.strip()
     except AttributeError:
-        data[6] = "No identificat"
+        data[6] = "Num. Jugadors NO identificat"
     
     try:
         data[7] = games_infos.find("td", {'data-th':'Idioma'}).text.strip()
     except AttributeError:
-        data[7] = "No identificat"
+        data[7] = "Idioma NO identificat"
     
     try:
         data[9] = games_infos.find("td", {'data-th':'Edad'}).text.strip()
     except AttributeError:
-        data[9] = "No identificada"
+        data[9] = "Edat NO identificada"
     
     try:
         data[8] = soup_info.find(class_="product attribute description").text.strip()
@@ -103,7 +103,8 @@ def parse_main_page(html):
         
         # Write data in csv(data)
         f.writerow(data)
-
+        print('Data added in:', file)
+        
         
 def scrap_web_content(html, ind):
     if html is not None:
@@ -123,6 +124,7 @@ def download(url, robot_parser, ind, user_agent='uoc_wswp', num_retries=10):
     try:
         if robot_parser.can_fetch(user_agent, url):
             html = urllib.request.urlopen(requests).read()
+            print('Parsing:', url)
             scrap_web_content(html, ind)
         else:
             print('Url blocked by robots.txt')
@@ -143,6 +145,5 @@ def robot_parser(url):
 
 
 def zacatrus_crawler(url, basic_url, mode):
-    print("Starting to crawl:")
     rp = robot_parser(basic_url)
     download(url, rp, mode)

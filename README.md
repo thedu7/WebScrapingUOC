@@ -30,7 +30,6 @@ Scraping the Data.
 pip install requests
 pip install csv
 pip install bs4
-pip install urllib
 ```
 
 *Executar l'algortime de Web Scraping :*

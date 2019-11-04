@@ -10,7 +10,8 @@ from bs4 import BeautifulSoup
 CONFIG
 '''
 
-data = ["Nom", "Autors", "Temàtica", "Preu", "Temps de joc", "Dificultat", "Num. Jugadors", "Idioma", "Descripció", "Edat", "URL"]
+data = ["Nom", "Tipo", "Autors", "Temàtica", "Preu", "Temps de joc", "Dificultat", "Num. Jugadors", "Idioma", "Descripció", "Edat", "URL"]
+data_games = ['Juegos de Tablero', 'Juegos de Cartas', 'Juegos de Rol', 'Juegos de Wargamers', 'Juegos de miniaturas', 'Juegos de dados', 'Juegos de KM0']
 file = 'Juegos-Zacatrus.csv'
 basic_url_zacatrus = 'https://zacatrus.es/'
 
@@ -23,7 +24,7 @@ def write_csv(data, csv_mode):
     # Create_csv(file, data)
     if csv_mode == 0:
         f = csv.writer(open(file, 'w'))
-        f.writerow(data) 
+        f.writerow(data)
     else:
         f = csv.writer(open(file, 'a'))
         f.writerow(data)
@@ -40,52 +41,52 @@ def parse_page_info(url):
     
     # Check all the extracted data
     try:
-        data[3] = soup_info.find(class_='price').text.strip()
+        data[4] = soup_info.find(class_='price').text.strip()
     except AttributeError:
-        data[3] = "Preu NO identificat"
+        data[4] = "Preu NO identificat"
     
     try:
-        data[1] = games_infos.find("td", {'data-th':'Autor'}).text.strip()
+        data[2] = games_infos.find("td", {'data-th':'Autor'}).text.strip()
     except AttributeError:
-        data[1] = "Autors NO identificat/s"
+        data[2] = "Autors NO identificat/s"
         
     try:
-        data[2] = games_infos.find("td", {'data-th':'Temática'}).text.strip()
+        data[3] = games_infos.find("td", {'data-th':'Temática'}).text.strip()
     except AttributeError:
-        data[2] = "Temàtica NO identificada"
+        data[3] = "Temàtica NO identificada"
     
     try:
-        data[4] = games_infos.find("td", {'data-th':'Tiempo de juego'}).text.strip()
+        data[5] = games_infos.find("td", {'data-th':'Tiempo de juego'}).text.strip()
     except AttributeError:
-        data[4] = "Temps de joc NO identificat"
+        data[5] = "Temps de joc NO identificat"
     
     try:
-        data[5] = games_infos.find("td", {'data-th':'Complejidad'}).text.strip()
+        data[6] = games_infos.find("td", {'data-th':'Complejidad'}).text.strip()
     except AttributeError:
-        data[5] = "Dificultat NO identificada"
+        data[6] = "Dificultat NO identificada"
         
     try:
-        data[6] = games_infos.find("td", {'data-th':'Núm. jugadores'}).text.strip()
+        data[7] = games_infos.find("td", {'data-th':'Núm. jugadores'}).text.strip()
     except AttributeError:
-        data[6] = "Num. Jugadors NO identificat"
+        data[7] = "Num. Jugadors NO identificat"
     
     try:
-        data[7] = games_infos.find("td", {'data-th':'Idioma'}).text.strip()
+        data[8] = games_infos.find("td", {'data-th':'Idioma'}).text.strip()
     except AttributeError:
-        data[7] = "Idioma NO identificat"
+        data[8] = "Idioma NO identificat"
     
     try:
-        data[9] = games_infos.find("td", {'data-th':'Edad'}).text.strip()
+        data[10] = games_infos.find("td", {'data-th':'Edad'}).text.strip()
     except AttributeError:
-        data[9] = "Edat NO identificada"
+        data[10] = "Edat NO identificada"
     
     try:
-        data[8] = soup_info.find(class_="product attribute description").text.strip()
+        data[9] = soup_info.find(class_="product attribute description").text.strip()
     except AttributeError:
-        data[8] = "No hi ha descripció"
+        data[9] = "No hi ha descripció"
 
         
-def parse_main_page(html):
+def parse_main_page(html, csv_ind):
     
     # Create a BeautifulSoup object
     soup = BeautifulSoup(html, 'html.parser')
@@ -101,9 +102,10 @@ def parse_main_page(html):
     for games in games_list_items:
     
         links = games.get('href')
-        data[10] = links
+        data[11] = links
         name = games.text.strip()
         data[0] = name
+        data[1] = data_games[csv_ind]
         
         # Crawl the new games urls = 'links'
         zacatrus_crawler(links, basic_url_zacatrus, 2, 1)
@@ -112,10 +114,10 @@ def parse_main_page(html):
         write_csv(data, 1)
         
         
-def scrap_web_content(html, ind):
+def scrap_web_content(html, ind, csv):
     if html is not None:
         if ind == 1:
-            parse_main_page(html)    
+            parse_main_page(html, csv)    
         else:
             parse_page_info(html)
     else:
@@ -123,7 +125,7 @@ def scrap_web_content(html, ind):
         return
         
         
-def download(url, robot_parser, ind, user_agent='uoc_wswp', num_retries=10):
+def download(url, robot_parser, ind, csv, user_agent='uoc_wswp', num_retries=10):
     print('Downloading:', url)
     headers = {'User-Agent': user_agent}
     requests = urllib.request.Request(url, headers = headers)
@@ -131,7 +133,7 @@ def download(url, robot_parser, ind, user_agent='uoc_wswp', num_retries=10):
         if robot_parser.can_fetch(user_agent, url):
             html = urllib.request.urlopen(requests).read()
             print('Parsing:', url)
-            scrap_web_content(html, ind)
+            scrap_web_content(html, ind, csv)
         else:
             print('Url blocked by robots.txt')
     except urllib.request.URLError as e:
@@ -154,4 +156,4 @@ def zacatrus_crawler(url, basic_url, mode, csv):
     rp = robot_parser(basic_url)
     if csv == 0:
         write_csv(data, csv)
-    download(url, rp, mode)
+    download(url, rp, mode, csv)

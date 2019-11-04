@@ -4,8 +4,7 @@ URL = ['https://zacatrus.es/juegos-de-mesa.html?cat=10',
       'https://zacatrus.es/juegos-de-mesa.html?cat=92',
       'https://zacatrus.es/juegos-de-mesa.html?cat=130',
       'https://zacatrus.es/juegos-de-mesa.html?cat=137',
-      'https://zacatrus.es/juegos-de-mesa.html?cat=138',
-      'https://zacatrus.es/juegos-de-mesa.html?cat=139'
+      'https://zacatrus.es/juegos-de-mesa.html?cat=138'
       ]
 
 '''

@@ -11,7 +11,6 @@ CONFIG
 '''
 
 data = ["Nom", "Autors", "Temàtica", "Preu", "Temps de joc", "Dificultat", "Num. Jugadors", "Idioma", "Descripció", "Edat", "URL"]
-data_games = ['Juegos de Tablero', 'Juegos de Cartas', 'Juegos de Rol', 'Juegos de Wargamers', 'Juegos de miniaturas', 'Juegos de dados', 'Juegos de KM0']
 file = 'Juegos-Zacatrus.csv'
 basic_url_zacatrus = 'https://zacatrus.es/'
 
@@ -24,11 +23,7 @@ def write_csv(data, csv_mode):
     # Create_csv(file, data)
     if csv_mode == 0:
         f = csv.writer(open(file, 'w'))
-        f.writerow(data)
-        f.writerow([data_games[csv_mode]])
-    elif csv_mode < 7 and csv_mode > 0:
-        f = csv.writer(open(file, 'a')) 
-        f.writerow([data_games[csv_mode]])
+        f.writerow(data) 
     else:
         f = csv.writer(open(file, 'a'))
         f.writerow(data)
@@ -111,10 +106,10 @@ def parse_main_page(html):
         data[0] = name
         
         # Crawl the new games urls = 'links'
-        zacatrus_crawler(links, basic_url_zacatrus, 2, 7)
+        zacatrus_crawler(links, basic_url_zacatrus, 2, 1)
 
         # Write data in csv(data)
-        write_csv(data, 7)
+        write_csv(data, 1)
         
         
 def scrap_web_content(html, ind):
@@ -157,6 +152,6 @@ def robot_parser(url):
 
 def zacatrus_crawler(url, basic_url, mode, csv):
     rp = robot_parser(basic_url)
-    if csv < 7:
+    if csv == 0:
         write_csv(data, csv)
     download(url, rp, mode)

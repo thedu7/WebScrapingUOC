@@ -11,12 +11,28 @@ CONFIG
 '''
 
 data = ["Nom", "Autors", "Temàtica", "Preu", "Temps de joc", "Dificultat", "Num. Jugadors", "Idioma", "Descripció", "Edat", "URL"]
+data_games = ['Juegos de Tablero', 'Juegos de Cartas', 'Juegos de Rol', 'Juegos de Wargamers', 'Juegos de miniaturas', 'Juegos de dados', 'Juegos de KM0']
 file = 'Juegos-Zacatrus.csv'
 basic_url_zacatrus = 'https://zacatrus.es/'
 
 '''
 FUNCTIONS
 '''
+
+def write_csv(data, csv_mode):
+    
+    # Create_csv(file, data)
+    if csv_mode == 0:
+        f = csv.writer(open(file, 'w'))
+        f.writerow(data)
+        f.writerow([data_games[csv_mode]])
+    elif csv_mode < 7 and csv_mode > 0:
+        f = csv.writer(open(file, 'a')) 
+        f.writerow([data_games[csv_mode]])
+    else:
+        f = csv.writer(open(file, 'a'))
+        f.writerow(data)
+        print('Data added in:', file)
 
 def parse_page_info(url):
     
@@ -78,11 +94,7 @@ def parse_main_page(html):
     
     # Create a BeautifulSoup object
     soup = BeautifulSoup(html, 'html.parser')
-    soup.encode("utf-8")
-    
-    # Create_csv(file, data)
-    f = csv.writer(open(file, 'w'))
-    f.writerow(data)  
+    soup.encode("utf-8")  
     
     # Pull all text from the class 'products list items product-items'
     games_list = soup.find(class_='products list items product-items')
@@ -99,11 +111,10 @@ def parse_main_page(html):
         data[0] = name
         
         # Crawl the new games urls = 'links'
-        zacatrus_crawler(links, basic_url_zacatrus, 2)
-        
+        zacatrus_crawler(links, basic_url_zacatrus, 2, 7)
+
         # Write data in csv(data)
-        f.writerow(data)
-        print('Data added in:', file)
+        write_csv(data, 7)
         
         
 def scrap_web_content(html, ind):
@@ -144,6 +155,8 @@ def robot_parser(url):
     return rp
 
 
-def zacatrus_crawler(url, basic_url, mode):
+def zacatrus_crawler(url, basic_url, mode, csv):
     rp = robot_parser(basic_url)
+    if csv < 7:
+        write_csv(data, csv)
     download(url, rp, mode)

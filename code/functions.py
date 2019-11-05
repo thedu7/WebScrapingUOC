@@ -3,7 +3,6 @@ import requests
 import csv
 import urllib.robotparser
 from urllib.parse import urlparse, urljoin
-#import time
 from bs4 import BeautifulSoup
 
 '''

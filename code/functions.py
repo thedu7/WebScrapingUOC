@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 CONFIG
 '''
 
-data = ["Nombre", "Tipo", "Precio", "Temática", "Autores", "Tiempo de juego", "Dificultad", "Num. Jugadores", "Idioma", "Descripción", "Edad", "URL"]
+data = ["Nombre", "Tipo", "Precio", "Temática", "Autores", "Tiempo de juego", "Dificultad", "Num. Jugadores", "Idioma", "Edad", "URL", "Descripción"]
 data_games = ['Juegos de Tablero', 'Juegos de Cartas', 'Juegos de Rol', 'Juegos de Wargamers', 'Juegos de Miniaturas', 'Juegos de Dados']
 file = 'Juegos-Zacatrus.csv'
 basic_url_zacatrus = 'https://zacatrus.es/'
@@ -76,14 +76,14 @@ def parse_page_info(url):
         data[8] = "Idioma NO identificat"
     
     try:
-        data[10] = games_infos.find("td", {'data-th':'Edad'}).text.strip()
+        data[9] = games_infos.find("td", {'data-th':'Edad'}).text.strip()
     except AttributeError:
-        data[10] = "Edat NO identificada"
+        data[9] = "Edat NO identificada"
     
     try:
-        data[9] = soup_info.find(class_="product attribute description").text.strip()
+        data[11] = soup_info.find(class_="product attribute description").text.strip()
     except AttributeError:
-        data[9] = "No hi ha descripció"
+        data[11] = "No hi ha descripció"
 
         
 def parse_main_page(html, csv_ind):
@@ -102,7 +102,7 @@ def parse_main_page(html, csv_ind):
     for games in games_list_items:
     
         links = games.get('href')
-        data[11] = links
+        data[10] = links
         name = games.text.strip()
         data[0] = name
         data[1] = data_games[csv_ind]

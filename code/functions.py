@@ -10,9 +10,9 @@ from bs4 import BeautifulSoup
 CONFIG
 '''
 
-data = ["Nom", "Tipus", "Preu", "Temàtica", "Autors", "Temps de joc", "Dificultat", "Num. Jugadors", "Idioma", "Descripció", "Edat", "URL"]
-data_games = ['Jocs de Tauler', 'Jocs de Cartes', 'Jocs de Rol', 'Jocs de Wargamers', 'Jocs de Miniatures', 'Jocs de Dades']
-file = 'Jocs-Zacatrus.csv'
+data = ["Nombre", "Tipo", "Precio", "Tematica", "Autores", "Tiempo de juego", "Dificultad", "Num. Jugadores", "Idioma", "Descripción", "Edad", "URL"]
+data_games = ['Juegos de Tablero', 'Juegos de Cartas', 'Juegos de Rol', 'Juegos de Wargamers', 'Juegos de Miniaturas', 'Juegos de Dados']
+file = 'Juegos-Zacatrus.csv'
 basic_url_zacatrus = 'https://zacatrus.es/'
 
 '''

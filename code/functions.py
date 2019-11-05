@@ -11,8 +11,8 @@ CONFIG
 '''
 
 data = ["Nom", "Tipus", "Preu", "Temàtica", "Autors", "Temps de joc", "Dificultat", "Num. Jugadors", "Idioma", "Descripció", "Edat", "URL"]
-data_games = ['Juegos de Tablero', 'Juegos de Cartas', 'Juegos de Rol', 'Juegos de Wargamers', 'Juegos de miniaturas', 'Juegos de dados']
-file = 'Juegos-Zacatrus.csv'
+data_games = ['Jocs de Tauler', 'Jocs de Cartes', 'Jocs de Rol', 'Jocs de Wargamers', 'Jocs de Miniatures', 'Jocs de Dades']
+file = 'Jocs-Zacatrus.csv'
 basic_url_zacatrus = 'https://zacatrus.es/'
 
 '''

@@ -3,6 +3,7 @@ import requests
 import csv
 import urllib.robotparser
 from urllib.parse import urlparse, urljoin
+#import time
 from bs4 import BeautifulSoup
 
 '''
@@ -42,47 +43,47 @@ def parse_page_info(url):
     try:
         data[2] = soup_info.find(class_='price').text.strip()
     except AttributeError:
-        data[2] = "Preu NO identificat"
+        data[2] = "Precio NO identificado"
     
     try:
         data[4] = games_infos.find("td", {'data-th':'Autor'}).text.strip()
     except AttributeError:
-        data[4] = "Autors NO identificat/s"
+        data[4] = "Autores NO identificados"
         
     try:
         data[3] = games_infos.find("td", {'data-th':'Temática'}).text.strip()
     except AttributeError:
-        data[3] = "Temàtica NO identificada"
+        data[3] = "Temática NO identificada"
     
     try:
         data[5] = games_infos.find("td", {'data-th':'Tiempo de juego'}).text.strip()
     except AttributeError:
-        data[5] = "Temps de joc NO identificat"
+        data[5] = "Tiempo de juego NO identificado"
     
     try:
         data[6] = games_infos.find("td", {'data-th':'Complejidad'}).text.strip()
     except AttributeError:
-        data[6] = "Dificultat NO identificada"
+        data[6] = "Dificultad NO identificada"
         
     try:
         data[7] = games_infos.find("td", {'data-th':'Núm. jugadores'}).text.strip()
     except AttributeError:
-        data[7] = "Num. Jugadors NO identificat"
+        data[7] = "Núm. Jugadores NO identificados"
     
     try:
         data[8] = games_infos.find("td", {'data-th':'Idioma'}).text.strip()
     except AttributeError:
-        data[8] = "Idioma NO identificat"
+        data[8] = "Idioma NO identificado"
     
     try:
         data[9] = games_infos.find("td", {'data-th':'Edad'}).text.strip()
     except AttributeError:
-        data[9] = "Edat NO identificada"
+        data[9] = "Edad NO identificada"
     
     try:
         data[11] = soup_info.find(class_="product attribute description").text.strip()
     except AttributeError:
-        data[11] = "No hi ha descripció"
+        data[11] = "No hay descripción"
 
         
 def parse_main_page(html, csv_ind):

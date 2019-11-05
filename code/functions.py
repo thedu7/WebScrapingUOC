@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 CONFIG
 '''
 
-data = ["Nom", "Tipo", "Autors", "Temàtica", "Preu", "Temps de joc", "Dificultat", "Num. Jugadors", "Idioma", "Descripció", "Edat", "URL"]
+data = ["Nom", "Tipus", "Preu", "Temàtica", "Autors", "Temps de joc", "Dificultat", "Num. Jugadors", "Idioma", "Descripció", "Edat", "URL"]
 data_games = ['Juegos de Tablero', 'Juegos de Cartas', 'Juegos de Rol', 'Juegos de Wargamers', 'Juegos de miniaturas', 'Juegos de dados']
 file = 'Juegos-Zacatrus.csv'
 basic_url_zacatrus = 'https://zacatrus.es/'
@@ -41,14 +41,14 @@ def parse_page_info(url):
     
     # Check all the extracted data
     try:
-        data[4] = soup_info.find(class_='price').text.strip()
+        data[2] = soup_info.find(class_='price').text.strip()
     except AttributeError:
-        data[4] = "Preu NO identificat"
+        data[2] = "Preu NO identificat"
     
     try:
-        data[2] = games_infos.find("td", {'data-th':'Autor'}).text.strip()
+        data[4] = games_infos.find("td", {'data-th':'Autor'}).text.strip()
     except AttributeError:
-        data[2] = "Autors NO identificat/s"
+        data[4] = "Autors NO identificat/s"
         
     try:
         data[3] = games_infos.find("td", {'data-th':'Temática'}).text.strip()
